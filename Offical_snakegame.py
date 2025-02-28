@@ -1,6 +1,8 @@
 import pygame
 import random
 import time
+import os
+from save_system import save_game, load_game
 #enter
 pygame.init()
 pygame.mixer.init
@@ -23,7 +25,7 @@ color_3 = (255, 255, 255)   # White
 color_4 = (247, 215, 0)     # Bright yellow 
 color_5 = (50, 205, 50)     # Vibrant green 
 color_6 = (255, 69, 0)      # Bright red 
-color_7 = (201, 67, 250)    # purple
+color_7 = (201, 67, 250)
 color_8 = (194, 178, 128)   #sand color
 add_caption = pygame.display.set_mode((box_len, box_height))
 pygame.display.set_caption("SNAKE GAME")
@@ -59,7 +61,7 @@ def draw_button(text, x, y, width, height, color, hover_color):
 def fade_in_text(text, y, color):
     alpha = 0
     while alpha < 255:
-        add_caption.fill(color_1) 
+        add_caption.fill(color_8) 
         menu_text = display_style.render(text, True, color)
         menu_text.set_alpha(alpha)
         add_caption.blit(menu_text, (box_len / 6, y))
@@ -195,9 +197,42 @@ def pause_menu():
                 if event.key == pygame.K_p:
                     paused = False
                     click_sound.play()
+def get_username():
+    """Ask the user for a username and return it."""
+    username = ""
+    input_active = True
+    while input_active:
+        add_caption.fill(color_1)
+        prompt_text = display_style.render("Enter Your Username:", True, color_3)
+        add_caption.blit(prompt_text, (box_len / 4, box_height / 3))
+        user_text = display_style.render(username, True, color_5)
+        add_caption.blit(user_text, (box_len / 4, box_height / 3 + 40))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:  # Press Enter to confirm username
+                    input_active = False
+                elif event.key == pygame.K_BACKSPACE:
+                    username = username[:-1]
+                else:
+                    username += event.unicode  # Add typed character
+    return username
+username = get_username()
+
+saved_data = load_game(username)
+
+if saved_data:
+    level = saved_data.get("level", 1)  # Default to level 1 if missing
+    snake_len = saved_data.get("score", 1) + 1  # Restore score
+else:
+    level = 1
+    snake_len = 1
 def game_start():
     #game varibles needed to play
-    global snake_speed,level,food_to_next_level
+    global snake_speed,level,food_to_next_level, username, game_data
     pygame.mixer.music.stop()
     pygame.mixer.music.load("game_theme.mp3")
     pygame.mixer.music.play(-1)
@@ -224,6 +259,8 @@ def game_start():
             add_caption.fill(color_6)
             display_msg("You lost!", color_7)
             final_score(snake_len - 1)
+            game_data = {"level": level, "score": snake_len - 1}
+            save_game(username, game_data)
             if draw_button("Restart", box_len / 6, box_height / 2 - 40, 200, 50, color_5, (0, 200, 0)):
                 level = 1
                 food_to_next_level = 5 
@@ -247,11 +284,15 @@ def game_start():
                 if event.type == pygame.QUIT:
                     game_over = True
                     game_close = False
+            
         # movement code
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_o:  # Press 'S' to save
+                    game_data = {"level": level, "score": snake_len - 1}
+                    save_game(game_data)
                 if event.key == pygame.K_a and new_x1 == 0:  
                     new_x1 = -snake_block
                     new_y1 = 0
