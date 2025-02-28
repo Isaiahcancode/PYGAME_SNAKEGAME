@@ -27,6 +27,7 @@ color_4 = (247, 215, 0)     # Bright yellow
 color_5 = (50, 205, 50)     # Vibrant green 
 color_6 = (255, 69, 0)      # Bright red 
 color_7 = (201, 67, 250)
+color_8 = (194, 178, 128)   #sand color
 add_caption = pygame.display.set_mode((box_len, box_height))
 pygame.display.set_caption("SNAKE GAME")
 timer = pygame.time.Clock()
@@ -61,7 +62,7 @@ def draw_button(text, x, y, width, height, color, hover_color):
 def fade_in_text(text, y, color):
     alpha = 0
     while alpha < 255:
-        add_caption.fill(color_1) 
+        add_caption.fill(color_8) 
         menu_text = display_style.render(text, True, color)
         menu_text.set_alpha(alpha)
         add_caption.blit(menu_text, (box_len / 6, y))
