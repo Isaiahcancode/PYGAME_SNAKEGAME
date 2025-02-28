@@ -6,7 +6,6 @@ from save_system import save_game, load_game
 #enter
 pygame.init()
 pygame.mixer.init
-#make a level system not a leveling system 
 game_over_sound = pygame.mixer.Sound("end.mp3")
 Food_collection_sound= pygame.mixer.Sound("food colection sound.wav")
 click_sound = pygame.mixer.Sound("click.wav")
@@ -38,7 +37,7 @@ score_font = pygame.font.SysFont("arial", 45, "bold")
 level = 1  
 food_to_next_level = 5  
 def final_score(score):
-    value = score_font.render("Enjoy the snake game -------- Your score is: " + str(score), True, color_2)
+    value = score_font.render("Enjoy the snake game -------- Your score is: " + str(score), True, color_7)
     add_caption.blit(value, [20, 20])
 def make_snake(snake_block, list_snake):
     for x in list_snake:
@@ -142,7 +141,7 @@ def spawn_food():
     food_y = round(random.randrange(0, box_height - snake_block) / 10.0) * 10.0
     return food_x, food_y
 def draw_food(foodx_pos, foody_pos):
-    food_color = (color_5)  
+    food_color = (23, 255, 25)  
     glow_color = (255, 255, 100) 
     for radius in range(20, 0, -5):  
         pygame.draw.circle(add_caption, glow_color, (int(foodx_pos + snake_block / 2), int(foody_pos + snake_block / 2)), radius)
@@ -257,8 +256,8 @@ def game_start():
     #death menu code
     while not game_over:
         while game_close:
-            add_caption.fill(color_1)
-            display_msg("You lost!", color_4)
+            add_caption.fill(color_6)
+            display_msg("You lost!", color_7)
             final_score(snake_len - 1)
             game_data = {"level": level, "score": snake_len - 1}
             save_game(username, game_data)
@@ -334,8 +333,8 @@ def game_start():
             if enemy_move_timer >= enemy_move_delay:
                 enemy_position = move_enemy_chase(enemy_position, [value_x1, value_y1])
                 enemy_move_timer = 0  
-        add_caption.fill(color_1)
-        pygame.draw.rect(add_caption, color_5, [foodx_pos, foody_pos, snake_block, snake_block])
+        add_caption.fill(color_8)
+        pygame.draw.rect(add_caption, (23, 255, 25), [foodx_pos, foody_pos, snake_block, snake_block])
         snake_head = [value_x1, value_y1]
         list_snake.append(snake_head)
         if len(list_snake) > snake_len:
@@ -363,11 +362,10 @@ def game_start():
                 game_close = True
         if food_collected >= food_to_next_level:
                 level += 1
-                snake_speed += 2  # Increase snake speed for higher levels
-                food_to_next_level += 2  # More food needed for the next level
-                food_collected = 0  # Reset food count
+                snake_speed += 2 
+                food_to_next_level += 2  
+                food_collected = 0  
                 level_sound.play()
-                # Display level up message
                 display_msg(f"Level {level}!", color_5)
                 pygame.display.update()
                 time.sleep(2)
