@@ -1,18 +1,9 @@
 import pygame
 import random
 import time
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 import os
 from save_system import save_game, load_game
 #enter
->>>>>>> Stashed changes
 pygame.init()
 pygame.mixer.init
 #make a level system not a leveling system 
@@ -119,16 +110,6 @@ def main_menu():
                 color_value = 0
                 increasing = True
         animated_color = (color_value, color_value, 255)
-        if draw_button_with_effects("Light mode", box_len / 6, box_height / 3 + 180, button_width, button_height, color_5, (220, 200, 0)):
-            color_1 = (220, 245, 255)
-            color_3 = (255, 255, 255)
-            color_4 = (0,0,0)
-            color_6 = color_7
-        if draw_button_with_effects("Dark_mode", box_len / 6, box_height / 3 + 240, button_width, button_height, color_5, (220, 200, 0)):
-        
-            color_3 = (255, 255, 255)
-            color_1 = (0,0,0)
-            color_4 = (247, 215, 0)
         if draw_button_with_effects("Press Q to Quit", box_len / 6, box_height / 3 + 60, button_width, button_height, color_4, (200, 200, 0)):
             click_sound.play()
         if draw_button_with_effects("Welcome to Snake game", box_len / 6, box_height / 3 - 60, button_width, button_height, color_5, (0, 200, 0)):
@@ -251,7 +232,7 @@ else:
     snake_len = 1
 def game_start():
     #game varibles needed to play
-    global snake_speed,level,food_to_next_level, username
+    global snake_speed,level,food_to_next_level, username, game_data
     pygame.mixer.music.stop()
     pygame.mixer.music.load("game_theme.mp3")
     pygame.mixer.music.play(-1)

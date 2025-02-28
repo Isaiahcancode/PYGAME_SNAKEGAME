@@ -6,11 +6,11 @@ SAVE_DIR = 'saves'
 if not os.path.exists(SAVE_DIR):
     os.makedirs(SAVE_DIR)
     
-def save_game(username, game_data):
-    """Saves game game_data to a file."""
+def save_game(username, data):
+    """Saves game data to a file."""
     file_path = os.path.join(SAVE_DIR, f"{username}.json")
     with open(file_path, "w") as save_file:
-        json.dump(game_data, save_file)
+        json.dump(data, save_file)
 
 
 def load_game(username):
