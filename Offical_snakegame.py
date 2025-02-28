@@ -2,7 +2,10 @@ import pygame
 import random
 import time
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 import os
 from save_system import save_game, load_game
 #enter
